@@ -1,0 +1,25 @@
+#########################################
+
+* clean up GUI
+
+engine
+
+* RING MOD -> when a voice is silenced stop oscillator
+* vibrato pre-delay
+* improve filter sweep and pulse modulation
+
+#########################################
+
+* load/save patches (presets)
+
+#########################################
+
+* port to rtAudio/rtMidi
+* audio settings
+
+#########################################
+
+* drums ?
+* stereo ?
+
+#########################################

@@ -1,0 +1,43 @@
+ChipSynth 0.0.1
+
+Copyright 2005, 2013 Leandro Nini
+
+####################################################################
+
+ChipSynth is a midi driven software synthetizer, mainly
+inspired by SID, the C=64 sound chip.
+It features two voices.
+
+Each voice is composed by:
+* an oscillator
+* a waveform generator which can produce four types of waveform
+  (triangular, sawtooth, pulse and noise) that can be combined
+  together
+* an envelope generator
+* three filters (low pass, band pass and high pass) that can be
+  selected together
+* an effect stage whith chorus and echo
+
+Four controls are avaiable for each voice:
+* glissato - provides smooth varying between two notes
+* arpeggio - an old style arpeggio effect when a chord is played
+* hard sync - the oscillator is syncronized with the other voice
+* ring modulation - when the triangle waveform is selected it is
+  modulated by the other voice
+
+####################################################################
+
+Info and some code taken from
+
+- the interview with Rob Yannes done by
+  Andreas Varga and avaiable at http://stud1.tuwien.ac.at/~e9426444
+
+- the reSID emulator engine done by Dag Lem 
+  http://www.geocities.com/SiliconValley/Lakes/5147/resid
+
+- the amSynth by Nick Dowell
+  http://amsynthe.sourceforge.net/amSynth
+
+####################################################################
+
+kled is part of KDE
