@@ -15,8 +15,7 @@ $(ALSA_CFLAGS) \
 src_chipsynth_LDFLAGS = \
 $(QT4_LIBS) \
 $(KDE_LIBS) \
-$(ALSA_LIBS) \
--lpthread
+$(ALSA_LIBS)
 
 bin_PROGRAMS = src/chipsynth
 
