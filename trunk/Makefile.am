@@ -7,6 +7,7 @@ src/libs/README\
 src/gui/chipsynth.ui
 
 #__RTMIDI_DEBUG__
+#RTAUDIO_DEBUG
 
 src_chipsynth_CPPFLAGS = \
 $(QT4_CFLAGS) \
@@ -22,7 +23,8 @@ $(ALSA_CFLAGS) -D__LINUX_ALSA__ \
 src_chipsynth_LDFLAGS = \
 $(QT4_LIBS) \
 $(KDE_LIBS) \
-$(ALSA_LIBS)
+$(ALSA_LIBS) \
+-pthread
 
 bin_PROGRAMS = src/chipsynth
 
@@ -30,12 +32,10 @@ src_chipsynth_SOURCES = \
 src/main.cpp \
 src/gui/chipsynth.cpp \
 src/gui/chipsynth.h \
-src/sound/alsa_sound.cpp \
-src/sound/alsa_sound.h \
+src/sound/csaudio.cpp \
+src/sound/csaudio.h \
 src/sound/csmidi.cpp \
 src/sound/csmidi.h \
-src/sound/sound_thread.cpp \
-src/sound/sound_thread.h \
 src/engine/envelope.cpp \
 src/engine/filter.cpp \
 src/engine/wavegen.cpp \
@@ -52,14 +52,15 @@ src/engine/filter_module.hpp \
 src/engine/wavegen_module.hpp \
 src/engine/oscillator_module.hpp \
 src/libs/RtError.h \
+src/libs/RtAudio.cpp \
+src/libs/RtAudio.h \
 src/libs/RtMidi.cpp \
 src/libs/RtMidi.h
 
 
 nodist_src_chipsynth_SOURCES = \
 src/gui/chipsynth_ui.h \
-src/gui/chipsynth_moc.cpp \
-src/sound/sound_thread_moc.cpp
+src/gui/chipsynth_moc.cpp
 
 BUILT_SOURCES = \
 src/gui/chipsynth_ui.h
@@ -74,8 +75,7 @@ endif
 
 CLEANFILES = \
 src/gui/chipsynth_ui.h \
-src/gui/chipsynth_moc.cpp \
-src/sound/sound_thread_moc.cpp
+src/gui/chipsynth_moc.cpp
 
 %_ui.h: %.ui
 	uic $< -o $@

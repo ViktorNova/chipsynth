@@ -1,7 +1,7 @@
 /*
  * This file is part of ChipSynth.
  *
- * Copyright 2005, 2013 Leandro Nini
+ * Copyright 2013 Leandro Nini
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,43 +17,35 @@
  * along with this program.  If not, see <http:*www.gnu.org/licenses/>.
  */
 
-#ifndef ALSA_SOUND_H
-#define ALSA_SOUND_H
-
-#include <alsa/asoundlib.h>
+#ifndef CSAUDIO_H
+#define CSAUDIO_H
 
 class engine;
+class RtAudio;
 
-class alsaAudio
+class csAudio
 {
+public:
+   struct userData_t
+   {
+        engine *eng;
+        int cnt;
+
+        userData_t(int c, engine *e) :
+            eng(e),
+            cnt(c) {}
+   };
+
 private:
-    snd_pcm_t *pcm_handle;
-    engine *_eng;
-
-    float *buf;
-
-    int _audio;
-    int _cnt;
-    int _rate;
-    int _bufSize;
-    int _stereo;
-    int _format;
-    unsigned int _bufsize;
+    RtAudio *_audio;
+    userData_t _userData;
 
 public:
-    alsaAudio(int count, engine *eng) :
-        _eng(eng),
-        _audio(-1),
-        _cnt(count),
-        _rate(0),
-        _stereo(0),
-        _format(0),
-        _bufSize(0) {}
+    csAudio(int count, engine *eng);
+    ~csAudio();
 
-    bool audioOpen(const char *pcm_name, unsigned int samplerate, unsigned int channels);
-    void audioClose();
-    void audioWrite();
-
+    bool open(const char *pcm_name, unsigned int samplerate, unsigned int channels);
+    void close();
 };
 
-#endif /* ALSA_SOUND_H */
+#endif

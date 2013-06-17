@@ -595,26 +595,19 @@ void chipsynth::init()
 
     eng = new engine();
     aMid = new csMidi(this, eng);
-    aAud = new alsaAudio(cnt, eng);
+    aAud = new csAudio(cnt, eng);
 
-    aAud->audioOpen("plughw:0", samplerate, channels); // FIXME
+    aAud->open("plughw:0", samplerate, channels); // FIXME
     aMid->open();
 
     QString port = QString("%1:%2").arg(aMid->clientId()).arg(aMid->portId());
     portDisplay->setText(port);
-
-    audio.setThread(aAud);
-
-    audio.start();
 }
 
 void chipsynth::destroy()
 {
-    audio.interrupt();
-    audio.wait();
-
     aMid->close();
-    aAud->audioClose();
+    aAud->close();
 
     delete aAud;
     delete aMid;

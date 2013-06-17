@@ -24,9 +24,8 @@
 
 #include <stdint.h>
 
-#include "alsa_sound.h"
+#include "csaudio.h"
 #include "csmidi.h"
-#include "sound_thread.h"
 
 class engine;
 
@@ -108,7 +107,7 @@ private:
     } voi_dat[2];
 
     csMidi *aMid;
-    alsaAudio *aAud;
+    csAudio *aAud;
 
     engine *eng;
 
@@ -119,7 +118,6 @@ private:
 //bool            vibrato, filtSweep, pwMod;
 //int             pulseWidth, filterCutoff;
 
-    audio_thread audio;
 };
 
 #endif // CHIPSYNTH_H
