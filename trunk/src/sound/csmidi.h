@@ -20,10 +20,9 @@
 #ifndef CSMIDI_H
 #define CSMIDI_H
 
-#include "RtMidi.h"
-
 class chipsynth;
 class engine;
+class RtMidiIn;
 
 class csMidi
 {
@@ -33,14 +32,11 @@ private:
     RtMidiIn *_midiin;
 
 public:
-    csMidi(chipsynth *cs, engine *eng) :
-        _cs(cs),
-        _eng(eng),
-        _midiin(new RtMidiIn()) {}
-    ~csMidi() { delete _midiin; }
+    csMidi(chipsynth *cs, engine *eng);
+    ~csMidi();
 
     bool open();
-    void close() { _midiin->closePort(); }
+    void close();
     int portId() const { return 0; }
     int clientId() const { return 0; }
 };

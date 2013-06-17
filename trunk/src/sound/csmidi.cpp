@@ -21,7 +21,10 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <cstdlib>
 
+#include "RtMidi.h"
+#include "RtError.h"
 #include "engine.h"
 
 void mycallback(double deltatime, std::vector<unsigned char> *message, void *userData)
@@ -105,6 +108,27 @@ void mycallback(double deltatime, std::vector<unsigned char> *message, void *use
     }
 }
 
+csMidi::csMidi(chipsynth *cs, engine *eng) :
+    _cs(cs),
+    _eng(eng),
+    _midiin(0)
+{
+    try
+    {
+        _midiin = new RtMidiIn();
+    }
+    catch (const RtError &error)
+    {
+        error.printMessage();
+        exit(EXIT_FAILURE);
+    }
+}
+
+csMidi::~csMidi()
+{
+    delete _midiin;
+}
+    
 bool csMidi::open()
 {
     // Check available ports.
@@ -118,4 +142,9 @@ bool csMidi::open()
     //midiin->openVirtualPort(std::string("RtMidi Input"));
 
     _midiin->setCallback(&mycallback, _eng);
+}
+
+void csMidi::close()
+{
+    _midiin->closePort();
 }
