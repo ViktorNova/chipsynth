@@ -19,14 +19,6 @@
 
 #include "sound_thread.h"
 
-void midi_thread::run()
-{
-    while (is_running)
-    {
-        midi->midiRead();
-    }
-}
-
 void audio_thread::run()
 {
     while (is_running)

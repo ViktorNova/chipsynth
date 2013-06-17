@@ -1,7 +1,7 @@
 /*
  * This file is part of ChipSynth.
  *
- * Copyright 2005, 2013 Leandro Nini
+ * Copyright 2013 Leandro Nini
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,43 +17,32 @@
  * along with this program.  If not, see <http:*www.gnu.org/licenses/>.
  */
 
-#ifndef ALSA_SOUND_H
-#define ALSA_SOUND_H
+#ifndef CSMIDI_H
+#define CSMIDI_H
 
-#include <alsa/asoundlib.h>
+#include "RtMidi.h"
 
+class chipsynth;
 class engine;
 
-class alsaAudio
+class csMidi
 {
 private:
-    snd_pcm_t *pcm_handle;
+    chipsynth *_cs;
     engine *_eng;
-
-    float *buf;
-
-    int _audio;
-    int _cnt;
-    int _rate;
-    int _bufSize;
-    int _stereo;
-    int _format;
-    unsigned int _bufsize;
+    RtMidiIn *_midiin;
 
 public:
-    alsaAudio(int count, engine *eng) :
+    csMidi(chipsynth *cs, engine *eng) :
+        _cs(cs),
         _eng(eng),
-        _audio(-1),
-        _cnt(count),
-        _rate(0),
-        _stereo(0),
-        _format(0),
-        _bufSize(0) {}
+        _midiin(new RtMidiIn()) {}
+    ~csMidi() { delete _midiin; }
 
-    bool audioOpen(const char *pcm_name, unsigned int samplerate, unsigned int channels);
-    void audioClose();
-    void audioWrite();
-
+    bool open();
+    void close() { _midiin->closePort(); }
+    int portId() const { return 0; }
+    int clientId() const { return 0; }
 };
 
-#endif /* ALSA_SOUND_H */
+#endif

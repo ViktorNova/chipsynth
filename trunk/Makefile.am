@@ -2,12 +2,19 @@
 
 AUTOMAKE_OPTIONS = foreign
 
+EXTRA_DIST = \
+src/libs/README\
+src/gui/chipsynth.ui
+
+#__RTMIDI_DEBUG__
+
 src_chipsynth_CPPFLAGS = \
 $(QT4_CFLAGS) \
 $(KDE_CFLAGS) \
-$(ALSA_CFLAGS) \
+$(ALSA_CFLAGS) -D__LINUX_ALSA__ \
 -I$(top_srcdir)/src \
 -I$(top_srcdir)/src/engine \
+-I$(top_srcdir)/src/libs \
 -I$(top_srcdir)/src/gui \
 -I$(top_srcdir)/src/sound \
 -I$(top_builddir)/src/gui
@@ -25,6 +32,8 @@ src/gui/chipsynth.cpp \
 src/gui/chipsynth.h \
 src/sound/alsa_sound.cpp \
 src/sound/alsa_sound.h \
+src/sound/csmidi.cpp \
+src/sound/csmidi.h \
 src/sound/sound_thread.cpp \
 src/sound/sound_thread.h \
 src/engine/envelope.cpp \
@@ -41,7 +50,11 @@ src/engine/chorus.hpp \
 src/engine/oscillator.hpp \
 src/engine/filter_module.hpp \
 src/engine/wavegen_module.hpp \
-src/engine/oscillator_module.hpp
+src/engine/oscillator_module.hpp \
+src/libs/RtError.h \
+src/libs/RtMidi.cpp \
+src/libs/RtMidi.h
+
 
 nodist_src_chipsynth_SOURCES = \
 src/gui/chipsynth_ui.h \
@@ -50,9 +63,6 @@ src/sound/sound_thread_moc.cpp
 
 BUILT_SOURCES = \
 src/gui/chipsynth_ui.h
-
-EXTRA_DIST = \
-src/gui/chipsynth.ui
 
 if !HAVE_KDE
 src_chipsynth_SOURCES += \

@@ -24,22 +24,6 @@
 
 #include "alsa_sound.h"
 
-class midi_thread : public QThread
-{
-    Q_OBJECT
-
-protected:
-    void run();
-
-private:
-    volatile bool is_running;
-    alsaMidi *midi;
-
-public:
-    void interrupt() { is_running = false; }
-    void setThread(alsaMidi *m) { midi = m; is_running = true; }
-};
-
 class audio_thread : public QThread
 {
     Q_OBJECT

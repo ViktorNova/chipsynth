@@ -594,31 +594,26 @@ void chipsynth::init()
     const int cnt = (int)(CLOCK / samplerate);
 
     eng = new engine();
-    aMid = new alsaMidi(this, eng);
+    aMid = new csMidi(this, eng);
     aAud = new alsaAudio(cnt, eng);
 
     aAud->audioOpen("plughw:0", samplerate, channels); // FIXME
-    aMid->midiOpen();
+    aMid->open();
 
     QString port = QString("%1:%2").arg(aMid->clientId()).arg(aMid->portId());
     portDisplay->setText(port);
 
-    midi.setThread(aMid);
     audio.setThread(aAud);
 
-    midi.start();
     audio.start();
 }
 
 void chipsynth::destroy()
 {
-    midi.interrupt();
-    midi.wait();
-
     audio.interrupt();
     audio.wait();
 
-    aMid->midiClose();
+    aMid->close();
     aAud->audioClose();
 
     delete aAud;

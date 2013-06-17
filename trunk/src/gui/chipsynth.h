@@ -25,6 +25,7 @@
 #include <stdint.h>
 
 #include "alsa_sound.h"
+#include "csmidi.h"
 #include "sound_thread.h"
 
 class engine;
@@ -106,7 +107,7 @@ private:
         uint16_t chorus;
     } voi_dat[2];
 
-    alsaMidi *aMid;
+    csMidi *aMid;
     alsaAudio *aAud;
 
     engine *eng;
@@ -118,7 +119,6 @@ private:
 //bool            vibrato, filtSweep, pwMod;
 //int             pulseWidth, filterCutoff;
 
-    midi_thread midi;
     audio_thread audio;
 };
 
