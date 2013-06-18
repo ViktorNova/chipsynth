@@ -37,8 +37,6 @@ public:
 
     bool open();
     void close();
-    int portId() const { return 0; }
-    int clientId() const { return 0; }
 };
 
 #endif

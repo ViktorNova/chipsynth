@@ -44,7 +44,6 @@ public slots:
     void setHP();
     void setCutoff(int param);
     void setRes(int param);
-    void openVkeyb();
     void openAbout();
     void setAttack(int param);
     void setDecay(int param);

@@ -135,12 +135,6 @@ void chipsynth::setRes(int param)
     voi_dat[voi_num].filt_res = param;
 }
 
-void chipsynth::openVkeyb()
-{
-    QString command = QString("vkeybd --addr %1:%2 &").arg(aMid->clientId()).arg(aMid->portId());
-    system(command.toAscii());
-}
-
 void chipsynth::openAbout()
 {
     QString title = "About "PACKAGE;
@@ -602,9 +596,6 @@ void chipsynth::init()
 
     aAud->open(0, samplerate, channels); // FIXME
     aMid->open();
-
-    QString port = QString("%1:%2").arg(aMid->clientId()).arg(aMid->portId());
-    portDisplay->setText(port);
 }
 
 void chipsynth::destroy()
