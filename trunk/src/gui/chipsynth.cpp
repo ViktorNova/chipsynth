@@ -22,6 +22,7 @@
 #include "chipsynth.h"
 
 #include <QMessageBox>
+#include <string.h>
 
 #include "engine.h"
 #include "kled.h"
@@ -588,6 +589,8 @@ void chipsynth::setFiltEcho()
 
 void chipsynth::init()
 {
+    memset(voi_dat, 0, sizeof(voi_dat));
+
     const unsigned int channels = 1; // FIXME
     const unsigned int samplerate = 48000; // FIXME
 
