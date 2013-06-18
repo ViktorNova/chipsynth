@@ -142,6 +142,8 @@ bool csMidi::open()
     //midiin->openVirtualPort(std::string("RtMidi Input"));
 
     _midiin->setCallback(&mycallback, _eng);
+
+    return true;
 }
 
 void csMidi::close()

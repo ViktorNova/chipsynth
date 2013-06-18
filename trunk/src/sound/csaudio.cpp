@@ -19,8 +19,6 @@
 
 #include "csaudio.h"
 
-#include <cstdlib>
-
 #include "RtAudio.h"
 #include "RtError.h"
 #include "engine.h"
@@ -64,7 +62,7 @@ bool csAudio::open(const char *pcm_name, unsigned int samplerate, unsigned int c
     if (_audio->getDeviceCount() < 1)
     {
         std::cout << "\nNo audio devices found!" << std::endl;
-        exit(EXIT_FAILURE);
+        return false;
     }
 
     RtAudio::StreamParameters parameters;
@@ -83,8 +81,10 @@ bool csAudio::open(const char *pcm_name, unsigned int samplerate, unsigned int c
     catch (const RtError &e)
     {
         e.printMessage();
-        exit(EXIT_FAILURE);
+        return false;
     }
+
+    return true;
 }
 
 void csAudio::close()
