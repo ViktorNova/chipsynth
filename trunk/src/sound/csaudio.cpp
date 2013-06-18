@@ -72,10 +72,15 @@ bool csAudio::open(const char *pcm_name, unsigned int samplerate, unsigned int c
     unsigned int sampleRate = samplerate;
     unsigned int bufferFrames = 256; // 256 sample frames
 
+    RtAudio::StreamOptions options;
+    options.flags = RTAUDIO_MINIMIZE_LATENCY|RTAUDIO_SCHEDULE_REALTIME;
+    options.numberOfBuffers = 2;
+    options.streamName = "ChipSynth Audio Stream";
+
     try
     {
         _audio->openStream(&parameters, NULL, RTAUDIO_FLOAT32,
-            sampleRate, &bufferFrames, &mycallback, static_cast<void*>(&_userData));
+            sampleRate, &bufferFrames, &mycallback, static_cast<void*>(&_userData), &options);
         _audio->startStream();
     }
     catch (const RtError &e)

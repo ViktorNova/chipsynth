@@ -115,7 +115,7 @@ csMidi::csMidi(chipsynth *cs, engine *eng) :
 {
     try
     {
-        _midiin = new RtMidiIn();
+        _midiin = new RtMidiIn(RtMidi::UNSPECIFIED, "ChipSynth Input Client");
     }
     catch (const RtError &error)
     {
@@ -138,7 +138,7 @@ bool csMidi::open()
         return false;
     }
 
-    _midiin->openPort(0);
+    _midiin->openPort(0, "ChipSynth Midi Input");
     //midiin->openVirtualPort(std::string("RtMidi Input"));
 
     _midiin->setCallback(&mycallback, _eng);
