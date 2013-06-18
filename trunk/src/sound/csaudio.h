@@ -44,7 +44,7 @@ public:
     csAudio(int count, engine *eng);
     ~csAudio();
 
-    bool open(const char *pcm_name, unsigned int samplerate, unsigned int channels);
+    bool open(unsigned int deviceId, unsigned int samplerate, unsigned int channels);
     void close();
 };
 

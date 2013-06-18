@@ -57,7 +57,7 @@ csAudio::~csAudio()
     delete _audio;
 }
 
-bool csAudio::open(const char *pcm_name, unsigned int samplerate, unsigned int channels)
+bool csAudio::open(unsigned int deviceId, unsigned int samplerate, unsigned int channels)
 {
     if (_audio->getDeviceCount() < 1)
     {

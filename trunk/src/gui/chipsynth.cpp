@@ -600,7 +600,7 @@ void chipsynth::init()
     aMid = new csMidi(this, eng);
     aAud = new csAudio(cnt, eng);
 
-    aAud->open("plughw:0", samplerate, channels); // FIXME
+    aAud->open(0, samplerate, channels); // FIXME
     aMid->open();
 
     QString port = QString("%1:%2").arg(aMid->clientId()).arg(aMid->portId());
