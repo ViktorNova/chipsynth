@@ -1,0 +1,15 @@
+*.[oa]
+*~
+.dirstamp
+.deps
+*.in
+config.*
+aclocal.m4
+autom4te.cache
+Makefile
+configure
+*.tar.*
+chipsynth
+*_moc.cpp
+*_ui.h
+stamp-h1
