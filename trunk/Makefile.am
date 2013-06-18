@@ -6,13 +6,14 @@ EXTRA_DIST = \
 src/libs/README\
 src/gui/chipsynth.ui
 
-#__RTMIDI_DEBUG__
-#RTAUDIO_DEBUG
-
 src_chipsynth_CPPFLAGS = \
+@debug_flags@ \
+@rt_flags@ \
 $(QT4_CFLAGS) \
 $(KDE_CFLAGS) \
-$(ALSA_CFLAGS) -D__LINUX_ALSA__ \
+$(ALSA_CFLAGS) \
+$(JACK_CFLAGS) \
+$(PULSE_CFLAGS) \
 -I$(top_srcdir)/src \
 -I$(top_srcdir)/src/engine \
 -I$(top_srcdir)/src/libs \
@@ -24,7 +25,12 @@ src_chipsynth_LDFLAGS = \
 $(QT4_LIBS) \
 $(KDE_LIBS) \
 $(ALSA_LIBS) \
--pthread
+$(JACK_LIBS) \
+$(PULSE_LIBS) \
+$(CORE_LIBS) \
+$(MM_LIBS) \
+$(DS_LIBS) \
+$(KS_LIBS)
 
 bin_PROGRAMS = src/chipsynth
 

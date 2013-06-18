@@ -19,8 +19,87 @@ AC_CHECK_HEADERS([stdint.h])
 #  [AC_MSG_ERROR([Required header stdint.h not found])]
 #)
 
-# Search for alsa library
-PKG_CHECK_MODULES(ALSA, [alsa >= 1.0])
+#####################################################
+# Check for debug build
+#####################################################
+AC_MSG_CHECKING([for debugging])
+AC_ARG_ENABLE(debug, [AS_HELP_STRING([--enable-debug], [compile for debugging])])
+AC_MSG_RESULT([$enable_debug])
+
+if [ test "x$enable_debug" = "xyes" ]; then
+        debug_flags="-g -Wall -O0 -DDEBUG -D__RTMIDI_DEBUG__ -DRTAUDIO_DEBUG"
+        CXXFLAGS=""
+        CFLAGS=""
+        if [ test "x$MINGW32" = "xyes" ]; then
+                LDFLAGS="${LDFLAGS} -mconsole"
+        else
+                LDFLAGS=""
+        fi
+else
+        debug_flags=-DNDEBUG
+fi
+
+AC_SUBST([debug_flags])
+
+
+#####################################################
+# Check for audio libs
+#####################################################
+
+rt_flags=""
+
+PKG_CHECK_MODULES(ALSA,
+    [alsa >= 1.0],
+    [rt_flags="$rt_flags -D__LINUX_ALSA__"],
+    [AC_MSG_WARN([$ALSA_PKG_ERRORS])]
+)
+
+PKG_CHECK_MODULES(JACK,
+    [jack >= 0.121],
+    [rt_flags="$rt_flags -D__UNIX_JACK__"],
+    [AC_MSG_WARN([$JACK_PKG_ERRORS])]
+)
+
+PKG_CHECK_MODULES(PULSE,
+    [libpulse-simple >= 1.0],
+    [rt_flags="$rt_flags -D__LINUX_PULSE__"],
+    [AC_MSG_WARN([$PULSE_PKG_ERRORS])]
+)
+
+AC_CHECK_HEADERS([mmsystem.h asio.h ksmedia.h dsound.h CoreMIDI/CoreMIDI.h])
+
+if test "$ac_cv_header_dsound_h" == "yes"; then
+    rt_flags="$rt_flags -D__WINDOWS_DS__"
+    DS_LIBS = -ldsound
+fi
+
+#if test "$ac_cv_header_asio_h" == "yes"; then
+#    rt_flags="$rt_flags -D__WINDOWS_ASIO__"
+#    ASIO_LIBS = ????
+#fi
+
+if test "$ac_cv_header_mmsystem_h" == "yes"; then
+    rt_flags="$rt_flags -D__WINDOWS_MM__"
+    MM_LIBS = -lwinmm
+fi
+
+if test "$ac_cv_header_ksmedia_h" == "yes"; then
+    rt_flags="$rt_flags -D__WINDOWS_KS__"
+    KS_LIBS = -lsetupapi -lksuser
+fi
+
+if test "$ac_cv_CoreMIDI_CoreMIDI_h" == "yes"; then
+    rt_flags="$rt_flags -D__MACOSX_CORE__"
+    CORE_LIBS="-framework CoreMIDI -framework CoreAudio -framework CoreFoundation -lpthread"
+fi
+
+
+AC_ARG_VAR([MM_LIBS], [Linker flags for Windows MMSYSTEM])
+AC_ARG_VAR([DS_LIBS], [Linker flags for Windows DirectSound])
+AC_ARG_VAR([KS_LIBS], [Linker flags for Windows Kernel Streaming])
+AC_ARG_VAR([CORE_LIBS], [Linker flags for MAC OSX])
+
+AC_SUBST([rt_flags])
 
 #####################################################
 # Check for QT
