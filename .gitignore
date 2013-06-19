@@ -12,4 +12,5 @@ configure
 chipsynth
 *_moc.cpp
 *_ui.h
+*_rcc.cpp
 stamp-h1

@@ -4,7 +4,9 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = \
 src/libs/README\
-src/gui/chipsynth.ui
+src/gui/chipsynth.ui \
+src/gui/resources.qrc \
+src/gui/icons/chipsynth.svg
 
 src_chipsynth_CPPFLAGS = \
 @debug_flags@ \
@@ -65,6 +67,7 @@ src/libs/RtMidi.h
 
 
 nodist_src_chipsynth_SOURCES = \
+src/gui/resources_rcc.cpp \
 src/gui/chipsynth_ui.h \
 src/gui/chipsynth_moc.cpp
 
@@ -80,6 +83,7 @@ src/gui/moc_kled.cpp
 endif
 
 CLEANFILES = \
+src/gui/resources_rcc.cpp \
 src/gui/chipsynth_ui.h \
 src/gui/chipsynth_moc.cpp
 
@@ -88,3 +92,6 @@ src/gui/chipsynth_moc.cpp
 
 %_moc.cpp: %.h
 	moc $< -o $@
+
+%_rcc.cpp: %.qrc
+	rcc $< -o $@

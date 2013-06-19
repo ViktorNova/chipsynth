@@ -2287,7 +2287,9 @@
  <includes>
   <include location="local">kled.h</include>
  </includes>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>aboutButton</sender>

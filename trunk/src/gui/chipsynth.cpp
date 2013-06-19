@@ -583,6 +583,8 @@ void chipsynth::setFiltEcho()
 
 void chipsynth::init()
 {
+    setWindowIcon(QIcon(":csicon"));
+
     memset(voi_dat, 0, sizeof(voi_dat));
 
     const unsigned int channels = 1; // FIXME
