@@ -27,7 +27,7 @@
 #include "engine.h"
 #include "kled.h"
 
-#define AUTHOR          "Dr. Fiemost"
+#define AUTHOR          "Copyright 2005, 2013 Leandro Nini"
 
 /*
  *  Constructs a chipsynth as a child of 'parent', with widget flags set to 'f'.
@@ -137,8 +137,8 @@ void chipsynth::setRes(int param)
 
 void chipsynth::openAbout()
 {
-    QString title = "About "PACKAGE;
-    QString message = PACKAGE" "VERSION" by "AUTHOR;
+    QString title = "About "PACKAGE_NAME;
+    QString message = PACKAGE_NAME" "VERSION"\n\n"AUTHOR"\n\n"PACKAGE_URL;
     QMessageBox::about(this, title, message);
 }
 

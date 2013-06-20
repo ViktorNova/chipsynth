@@ -1,6 +1,6 @@
 # Process this file with autoconf to create configure.
 
-AC_INIT([chipsynth],[0.0.1])
+AC_INIT([ChipSynth],[0.0.1],[http://sourceforge.net/p/chipsynth/tickets/],[chipsynth],[http://sourceforge.net/projects/chipsynth/])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_AUX_DIR([config])
