@@ -31,7 +31,8 @@
 class oscillator_module : public oscillator
 {
 private:
-    int _divider;
+    const int _divider;
+
     int _counter;
     int _f;
     int _bend;

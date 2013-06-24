@@ -38,7 +38,8 @@
 class wavegen_module : public wavegen
 {
 private:
-    int _divider;
+    const int _divider;
+
     int _counter;
 
     //uint16_t _Min;
