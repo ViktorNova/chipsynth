@@ -26,10 +26,22 @@ class RtMidiIn;
 
 class csMidi
 {
+public:
+   struct userData_t
+   {
+        engine *eng;
+        chipsynth *cs;
+
+        userData_t(chipsynth *c, engine *e) :
+            eng(e),
+            cs(c) {}
+   };
+
 private:
     chipsynth *_cs;
     engine *_eng;
     RtMidiIn *_midiin;
+    userData_t _userData;
 
 public:
     csMidi(chipsynth *cs, engine *eng);

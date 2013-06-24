@@ -26,10 +26,12 @@
 #include "RtMidi.h"
 #include "RtError.h"
 #include "engine.h"
+#include "chipsynth.h"
 
 void mycallback(double deltatime, std::vector<unsigned char> *message, void *userData)
 {
-    engine *eng = static_cast<engine*>(userData);
+    engine *eng = static_cast<csMidi::userData_t*>(userData)->eng;
+    chipsynth *cs = static_cast<csMidi::userData_t*>(userData)->cs;
 
 #ifdef DEBUG
     unsigned int nBytes = message->size();
@@ -71,25 +73,25 @@ void mycallback(double deltatime, std::vector<unsigned char> *message, void *use
     }
     else if (status >= 0xB0 && status <= 0xBF)
     {
-        // TODO
-#if 0
+        // FIXME check channel
+        //const int channel = status - 0xB0;
         switch (data1)
         {
-        case 1:         // modulation (vibrato?)
-            _cs->setVibSpeed(data2);
-            _cs->vibSpdKnob->setValue(data2);
+        case 1:         // modulation MSB (vibrato?)
+            cs->setVibSpeed(data2 << 1);
+            cs->vibSpdKnob->setValue(data2 << 1);
             break;
-        case 7:         // volume
-            _cs->setVolume(data2 / 8);
-            _cs->volumeKnob->setValue(data2 / 8);
+        case 7:         // volume MSB
+            cs->setVolume(data2 >> 3);
+            cs->volumeKnob->setValue(data2 >> 3);
             break;
         case 10:        // panning
             break;
         case 11:        // expression
             break;
         case 64:        // sustain
-            _cs->setSustain(data2 / 8);
-            _cs->sustainKnob->setValue(data2 / 8);
+            //cs->setSustain(data2 / 8);
+            //cs->sustainKnob->setValue(data2 / 8);
             break;
         case 66:        // sostenuto
             break;
@@ -98,12 +100,11 @@ void mycallback(double deltatime, std::vector<unsigned char> *message, void *use
         case 93:        // chorus
             break;
         }
-#endif
     }
     else if (status >= 0xE0 && status <= 0xEF)
     {
         const int channel = status - 0xE0;
-        int value =  data1 | (data2 << 7);
+        const int value =  data1 | (data2 << 7);
         eng->param(channel, PitchBend, value);
     }
 }
@@ -111,7 +112,8 @@ void mycallback(double deltatime, std::vector<unsigned char> *message, void *use
 csMidi::csMidi(chipsynth *cs, engine *eng) :
     _cs(cs),
     _eng(eng),
-    _midiin(0)
+    _midiin(0),
+    _userData(cs, eng)
 {
     try
     {
@@ -141,7 +143,7 @@ bool csMidi::open()
     _midiin->openPort(0, "ChipSynth Midi Input");
     //midiin->openVirtualPort(std::string("RtMidi Input"));
 
-    _midiin->setCallback(&mycallback, _eng);
+    _midiin->setCallback(&mycallback, static_cast<void*>(&_userData));
 
     return true;
 }
