@@ -3,8 +3,9 @@
 AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = \
-src/libs/README\
+src/libs/README \
 src/gui/chipsynth.ui \
+src/gui/configDialog.ui \
 src/gui/resources.qrc \
 src/gui/icons/chipsynth.svg
 
@@ -40,6 +41,8 @@ src_chipsynth_SOURCES = \
 src/main.cpp \
 src/gui/chipsynth.cpp \
 src/gui/chipsynth.h \
+src/gui/configDialog.cpp \
+src/gui/configDialog.h \
 src/sound/csaudio.cpp \
 src/sound/csaudio.h \
 src/sound/csmidi.cpp \
@@ -69,10 +72,13 @@ src/libs/RtMidi.h
 nodist_src_chipsynth_SOURCES = \
 src/gui/resources_rcc.cpp \
 src/gui/chipsynth_ui.h \
-src/gui/chipsynth_moc.cpp
+src/gui/chipsynth_moc.cpp \
+src/gui/configDialog_ui.h \
+src/gui/configDialog_moc.cpp
 
 BUILT_SOURCES = \
-src/gui/chipsynth_ui.h
+src/gui/chipsynth_ui.h \
+src/gui/configDialog_ui.h
 
 if !HAVE_KDE
 src_chipsynth_SOURCES += \
@@ -85,7 +91,9 @@ endif
 CLEANFILES = \
 src/gui/resources_rcc.cpp \
 src/gui/chipsynth_ui.h \
-src/gui/chipsynth_moc.cpp
+src/gui/chipsynth_moc.cpp \
+src/gui/configDialog_ui.h \
+src/gui/configDialog_moc.cpp
 
 %_ui.h: %.ui
 	uic $< -o $@

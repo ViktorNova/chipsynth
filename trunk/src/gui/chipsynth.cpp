@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "engine.h"
+#include "configDialog.h"
 #include "kled.h"
 
 #define AUTHOR          "Copyright 2005, 2013 Leandro Nini"
@@ -568,7 +569,10 @@ void chipsynth::reset()
 
 void chipsynth::config()
 {
-    qWarning("chipsynth::config(): Not implemented yet");
+    configDialog cfg(this);
+    if (cfg.exec() == QDialog::Accepted)
+    {
+    }
 }
 
 void chipsynth::setFiltAll()
