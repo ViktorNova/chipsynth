@@ -24,14 +24,6 @@
 
 #include "delay.hpp"
 
-#define ECHO_TIME_MASK		0xFF00
-#define ECHO_FBK_MASK		0x00F0
-#define ECHO_MIX_MASK		0x000F
-
-#define ECHO_TIME(x)		((x & ECHO_TIME_MASK) >> 8)
-#define ECHO_FBK(x)		((x & ECHO_FBK_MASK) >> 4)
-#define ECHO_MIX(x)		(x & ECHO_MIX_MASK)
-
 /**
  This class implements an echo
  Parameters:
@@ -41,6 +33,16 @@
 */
 class echo
 {
+public:
+    static const uint16_t TIME_MASK = 0xFF00;
+    static const uint16_t FBK_MASK = 0x00F0;
+    static const uint16_t MIX_MASK = 0x000F;
+
+public:
+    static uint16_t TIME(uint16_t x) { return (x & TIME_MASK) >> 8; }
+    static uint16_t FBK(uint16_t x) { return (x & FBK_MASK) >> 4; }
+    static uint16_t MIX(uint16_t x) { return x & MIX_MASK; }
+
 private:
     delay* _del;
 
@@ -60,16 +62,16 @@ public:
     void parameter(uint16_t param)
     {
         _param = param;
-        _del->time_ms(ECHO_TIME(_param)<<1);
+        _del->time_ms(TIME(_param)<<1);
     }
 
     uint32_t clock(uint32_t input)
     {
         /* send input + feedback to the delay line */
-        _delOut = _del->clock(input + ((_delOut * ECHO_FBK(_param)) >> 4));
+        _delOut = _del->clock(input + ((_delOut * FBK(_param)) >> 4));
 
         /* send out input + delay output */
-        return ((_delOut * ECHO_MIX(_param)) >> 4);
+        return ((_delOut * MIX(_param)) >> 4);
     }
 };
 

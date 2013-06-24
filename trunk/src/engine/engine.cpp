@@ -47,7 +47,7 @@ engine::engine()
     _k = 4294967296.0f / CLOCK;
     _divider = CLOCK / 50;
 
-    for (int i=0; i<=VOICES; i++)
+    for (unsigned int i=0; i<=VOICES; i++)
     {
         _voices[i].osc = new oscillator_module(CLOCK);
         _voices[i].wav = new wavegen_module(CLOCK);
@@ -77,7 +77,7 @@ engine::engine()
  */
 engine::~engine()
 {
-    for (int i=0; i<=VOICES; i++)
+    for (unsigned int i=0; i<=VOICES; i++)
     {
         delete _voices[i].osc;
         delete _voices[i].wav;
@@ -194,11 +194,11 @@ void engine::noteOff(int voice, int note)
 {
     note_data_t	*nd = &_noteData[voice];
 
-    for (int i=0; i<nd->poly; i++)
+    for (unsigned int i=0; i<nd->poly; i++)
     {
         if (nd->notes[i] == note)
         {
-            for (int j=i; j<nd->poly-1; j++)
+            for (unsigned int j=i; j<nd->poly-1; j++)
             {
                 nd->notes[j] = nd->notes[j+1];
             }
@@ -220,7 +220,7 @@ float engine::clock(void)
 {
     /* set the frequency register according to note played */
     _divider--;
-    for (int i=0; i<VOICES; i++)
+    for (unsigned int i=0; i<VOICES; i++)
     {
         note_data_t *nd = &_noteData[i];
         if (nd->poly > 0)
@@ -267,11 +267,11 @@ float engine::clock(void)
     int wav[VOICES+1];
 
     /* clock oscillators */
-    for (int i=0; i<=VOICES; i++)
+    for (unsigned int i=0; i<=VOICES; i++)
         val[i] = _voices[i].osc->clock();
 
     /* syncronize oscillators if needed */
-    for (int i=0; i<VOICES; i++)
+    for (unsigned int i=0; i<VOICES; i++)
     {
         if (_voices[i].sync)
         {
@@ -284,7 +284,7 @@ float engine::clock(void)
     }
 
     /* generate waveforms */
-    for (int i=0; i<VOICES; i++)
+    for (unsigned int i=0; i<VOICES; i++)
     {
         const int j = ((i-1)<0) ? i-1+VOICES : i-1;
         wav[i] = _voices[i].wav->clock(val[i], val[j]);
@@ -293,7 +293,7 @@ float engine::clock(void)
 
     //Vi = Vv[VOICES];
 
-    for (int i=0; i<=VOICES; i++)
+    for (unsigned int i=0; i<=VOICES; i++)
     {
         /* clock envelope generators */
         const int env = _voices[i].env->clock();

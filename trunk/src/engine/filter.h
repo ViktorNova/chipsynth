@@ -22,10 +22,6 @@
 
 #include <stdint.h>
 
-#define LOWPASS		0x10
-#define BANDPASS	0x20
-#define HIGHPASS	0x40
-
 /**
  This class implements a two-integrator-loop biquadratic filter
  the code is taken from reSID but operates on floats rather than
@@ -33,6 +29,11 @@
 */
 class filter
 {
+public:
+    static const int LOWPASS = 0x10;
+    static const int BANDPASS = 0x20;
+    static const int HIGHPASS = 0x40;
+
 private:
     /** sample rate */
     int _sr;

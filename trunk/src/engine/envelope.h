@@ -22,23 +22,26 @@
 
 #include <stdint.h>
 
-#define ATTACK_MASK	0xF000
-#define DECAY_MASK	0x0F00
-#define SUSTAIN_MASK	0x00F0
-#define RELEASE_MASK	0x000F
-
-#define ATTACK(x)	((x & ATTACK_MASK) >> 12)
-#define DECAY(x)	((x & DECAY_MASK) >> 8)
-#define SUSTAIN(x)	((x & SUSTAIN_MASK) >> 4)
-#define RELEASE(x)	(x & RELEASE_MASK)
-
-typedef enum {ATT, DEC, SUS} env_state_t;
-
 /**
  This class implements an envelope generator
 */
 class envelope
 {
+private:
+    typedef enum {ATT, DEC, SUS} env_state_t;
+
+public:
+    static const uint16_t ATTACK_MASK = 0xF000;
+    static const uint16_t DECAY_MASK = 0x0F00;
+    static const uint16_t SUSTAIN_MASK = 0x00F0;
+    static const uint16_t RELEASE_MASK =  0x000F;
+
+public:
+    static uint16_t ATTACK(uint16_t x) { return (x & ATTACK_MASK) >> 12; }
+    static uint16_t DECAY(uint16_t x) { return (x & DECAY_MASK) >> 8; }
+    static uint16_t SUSTAIN(uint16_t x) { return (x & SUSTAIN_MASK) >> 4; }
+    static uint16_t RELEASE(uint16_t x) { return x & RELEASE_MASK; }
+
 private:
     /** State of the envelope generator
      * Attack, Decay or Sustain */

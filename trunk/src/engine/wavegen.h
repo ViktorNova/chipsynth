@@ -22,19 +22,6 @@
 
 #include <stdint.h>
 
-#define NSEED	0x7FFFF8
-#define MSB12	0x0800
-
-#define TRI	0x1000
-#define SAW	0x2000
-#define PUL	0x4000
-#define NOI	0x8000
-
-#define WAV_MASK	0xF000
-#define PW_MASK		0x0FFF
-
-#define PULSEWIDTH(x)	(x & PW_MASK)
-
 /**
  This class implements a waveform generator
  Avaiable waveforms are: triangle, sawtooth, pulse and noise
@@ -43,6 +30,24 @@
 */
 class wavegen
 {
+private:
+    static const uint32_t NSEED = 0x7FFFF8;
+    static const uint16_t MSB12 = 0x0800;
+
+public:
+    static const uint16_t TRI = 0x1000;
+    static const uint16_t SAW = 0x2000;
+    static const uint16_t PUL = 0x4000;
+    static const uint16_t NOI = 0x8000;
+
+    static const uint16_t PW_MASK = 0x0FFF;
+
+private:
+    static const uint16_t WAV_MASK = 0xF000;
+
+public:
+    static uint16_t PULSEWIDTH(uint16_t x) { return x & PW_MASK; }
+
 private:
     uint16_t _param;
 

@@ -73,14 +73,14 @@ void chipsynth::setVolume(int param)
 
 void chipsynth::setLP()
 {
-    if (filt & LOWPASS)
+    if (filt & filter::LOWPASS)
     {
-        filt &= ~LOWPASS;
+        filt &= ~filter::LOWPASS;
         lpLed->off();
     }
     else
     {
-        filt |= LOWPASS;
+        filt |= filter::LOWPASS;
         lpLed->on();
     }
 
@@ -90,14 +90,14 @@ void chipsynth::setLP()
 
 void chipsynth::setBP()
 {
-    if (filt & BANDPASS)
+    if (filt & filter::BANDPASS)
     {
-        filt &= ~BANDPASS;
+        filt &= ~filter::BANDPASS;
         bpLed->off();
     }
     else
     {
-        filt |= BANDPASS;
+        filt |= filter::BANDPASS;
         bpLed->on();
     }
 
@@ -107,14 +107,14 @@ void chipsynth::setBP()
 
 void chipsynth::setHP()
 {
-    if (filt & HIGHPASS)
+    if (filt & filter::HIGHPASS)
     {
-        filt &= ~HIGHPASS;
+        filt &= ~filter::HIGHPASS;
         hpLed->off();
     }
     else
     {
-        filt |= HIGHPASS;
+        filt |= filter::HIGHPASS;
         hpLed->on();
     }
 
@@ -145,7 +145,7 @@ void chipsynth::openAbout()
 
 void chipsynth::setAttack(int param)
 {
-    uint16_t val = voi_dat[voi_num].adsr & ~ATTACK_MASK;
+    uint16_t val = voi_dat[voi_num].adsr & ~envelope::ATTACK_MASK;
     val |= (param << 12);
     eng->param(voi_num, Adsr, val);
     attackDisplay->display(param);
@@ -154,7 +154,7 @@ void chipsynth::setAttack(int param)
 
 void chipsynth::setDecay(int param)
 {
-    uint16_t val = voi_dat[voi_num].adsr & ~DECAY_MASK;
+    uint16_t val = voi_dat[voi_num].adsr & ~envelope::DECAY_MASK;
     val |= (param << 8);
     eng->param(voi_num, Adsr, val);
     decayDisplay->display(param);
@@ -163,7 +163,7 @@ void chipsynth::setDecay(int param)
 
 void chipsynth::setSustain(int param)
 {
-    uint16_t val = voi_dat[voi_num].adsr & ~SUSTAIN_MASK;
+    uint16_t val = voi_dat[voi_num].adsr & ~envelope::SUSTAIN_MASK;
     val |= (param << 4);
     eng->param(voi_num, Adsr, val);
     sustainDisplay->display(param);
@@ -172,7 +172,7 @@ void chipsynth::setSustain(int param)
 
 void chipsynth::setRelease(int param)
 {
-    uint16_t val = voi_dat[voi_num].adsr & ~RELEASE_MASK;
+    uint16_t val = voi_dat[voi_num].adsr & ~envelope::RELEASE_MASK;
     val |= param;
     eng->param(voi_num, Adsr, val);
     releaseDisplay->display(param);
@@ -182,14 +182,14 @@ void chipsynth::setRelease(int param)
 void chipsynth::setTriangle()
 {
     uint16_t val = voi_dat[voi_num].waveform;
-    if (val & TRI)
+    if (val & wavegen::TRI)
     {
-        val &= ~TRI;
+        val &= ~wavegen::TRI;
         triLed->off();
     }
     else
     {
-        val |= TRI;
+        val |= wavegen::TRI;
         triLed->on();
     }
 
@@ -200,14 +200,14 @@ void chipsynth::setTriangle()
 void chipsynth::setSawtooth()
 {
     uint16_t val = voi_dat[voi_num].waveform;
-    if (val & SAW)
+    if (val & wavegen::SAW)
     {
-        val &= ~SAW;
+        val &= ~wavegen::SAW;
         sawLed->off();
     }
     else
     {
-        val|= SAW;
+        val|= wavegen::SAW;
         sawLed->on();
     }
 
@@ -218,13 +218,13 @@ void chipsynth::setSawtooth()
 void chipsynth::setPulse()
 {
     uint16_t val = voi_dat[voi_num].waveform;
-    if (val & PUL)
+    if (val & wavegen::PUL)
     {
-        val &= ~PUL;
+        val &= ~wavegen::PUL;
         pulLed->off();
     }
     else{
-        val |= PUL;
+        val |= wavegen::PUL;
         pulLed->on();
     }
 
@@ -235,14 +235,14 @@ void chipsynth::setPulse()
 void chipsynth::setNoise()
 {
     uint16_t val = voi_dat[voi_num].waveform;
-    if (val & NOI)
+    if (val & wavegen::NOI)
     {
-        val &= ~NOI;
+        val &= ~wavegen::NOI;
         noiLed->off();
     }
     else
     {
-        val |= NOI;
+        val |= wavegen::NOI;
         noiLed->on();
     }
 
@@ -252,7 +252,7 @@ void chipsynth::setNoise()
 
 void chipsynth::setPW(int param)
 {
-    uint16_t val = voi_dat[voi_num].waveform & ~PW_MASK;
+    uint16_t val = voi_dat[voi_num].waveform & ~wavegen::PW_MASK;
     val |= param;
     eng->param(voi_num, Waveform, val);
     voi_dat[voi_num].waveform = val;
@@ -297,11 +297,11 @@ void chipsynth::setRing()
 void chipsynth::setArp()
 {
     if (arpLed->state()) {
-            ctrl = NONE;
+            ctrl = engine::NONE;
             arpLed->off();
     }
     else {
-            ctrl = ARP;
+            ctrl = engine::ARP;
             glissLed->off();
             arpLed->on();
     }
@@ -313,12 +313,12 @@ void chipsynth::setGliss()
 {
     if (glissLed->state())
     {
-        ctrl = NONE;
+        ctrl = engine::NONE;
         glissLed->off();
     }
     else
     {
-        ctrl = GLISS;
+        ctrl = engine::GLISS;
         arpLed->off();
         glissLed->on();
     }
@@ -365,7 +365,7 @@ void chipsynth::setVoice2()
 
 void chipsynth::setPmSpeed(int param)
 {
-    int val = voi_dat[voi_num].pm & ~PW_SPEED_MASK;
+    int val = voi_dat[voi_num].pm & ~wavegen_module::PW_SPEED_MASK;
     val |= param;
     eng->param(voi_num, PwMod, val);
     pmSpeedDisplay->display(param);
@@ -374,7 +374,7 @@ void chipsynth::setPmSpeed(int param)
 
 void chipsynth::setPmDepth(int param)
 {
-    int val = voi_dat[voi_num].pm & ~PW_DEPTH_MASK;
+    int val = voi_dat[voi_num].pm & ~wavegen_module::PW_DEPTH_MASK;
     val |= (param << 4);
     eng->param(voi_num, PwMod, val);
     pmDepthDisplay->display(param);
@@ -390,7 +390,7 @@ void chipsynth::setVibSpeed(int param)
 
 void chipsynth::setEchoTime(int param)
 {
-    int val = voi_dat[voi_num].echo & ~ECHO_TIME_MASK;
+    int val = voi_dat[voi_num].echo & ~echo::TIME_MASK;
     val |= (param << 8);
     eng->param(voi_num, Echo, val);
     echoTimeDisplay->display(param);
@@ -399,7 +399,7 @@ void chipsynth::setEchoTime(int param)
 
 void chipsynth::setEchoFbk(int param)
 {
-    int val = voi_dat[voi_num].echo & ~ECHO_FBK_MASK;
+    int val = voi_dat[voi_num].echo & ~echo::FBK_MASK;
     val |= (param << 4);
     eng->param(voi_num, Echo, val);
     echoFbkDisplay->display(param);
@@ -408,7 +408,7 @@ void chipsynth::setEchoFbk(int param)
 
 void chipsynth::setEchoMix(int param)
 {
-    int val = voi_dat[voi_num].echo & ~ECHO_MIX_MASK;
+    int val = voi_dat[voi_num].echo & ~echo::MIX_MASK;
     val |= param;
     eng->param(voi_num, Echo, val);
     echoMixDisplay->display(param);
@@ -417,7 +417,7 @@ void chipsynth::setEchoMix(int param)
 
 void chipsynth::setChorusRate(int param)
 {
-    int val = voi_dat[voi_num].chorus & ~CHORUS_RATE_MASK;
+    int val = voi_dat[voi_num].chorus & ~chorus::RATE_MASK;
     val |= (param << 8);
     eng->param(voi_num, Chorus, val);
     chorusRateDisplay->display(param);
@@ -426,7 +426,7 @@ void chipsynth::setChorusRate(int param)
 
 void chipsynth::setChorusFbk(int param)
 {
-    int val = voi_dat[voi_num].chorus & ~CHORUS_FBK_MASK;
+    int val = voi_dat[voi_num].chorus & ~chorus::FBK_MASK;
     val |= (param << 4);
     eng->param(voi_num, Chorus, val);
     chorusFbkDisplay->display(param);
@@ -435,7 +435,7 @@ void chipsynth::setChorusFbk(int param)
 
 void chipsynth::setChorusMix(int param)
 {
-    int val = voi_dat[voi_num].chorus & ~CHORUS_MIX_MASK;
+    int val = voi_dat[voi_num].chorus & ~chorus::MIX_MASK;
     val |= param;
     eng->param(voi_num, Chorus, val);
     chorusMixDisplay->display(param);
@@ -448,15 +448,15 @@ void chipsynth::displayParams(int v_num)
     volumeDisplay->display(voi_dat[v_num].volume);
     volumeKnob->setValue(voi_dat[v_num].volume);
     filt = voi_dat[v_num].filt_type;
-    if (filt & LOWPASS)
+    if (filt & filter::LOWPASS)
         lpLed->on();
     else
         lpLed->off();
-    if (filt & BANDPASS)
+    if (filt & filter::BANDPASS)
         bpLed->on();
     else
         bpLed->off();
-    if (filt & HIGHPASS)
+    if (filt & filter::HIGHPASS)
         hpLed->on();
     else
         hpLed->off();
@@ -465,74 +465,74 @@ void chipsynth::displayParams(int v_num)
     resDisplay->display(voi_dat[v_num].filt_res);
     resKnob->setValue(voi_dat[v_num].filt_res);
 
-    val = ATTACK(voi_dat[v_num].adsr);
+    val = envelope::ATTACK(voi_dat[v_num].adsr);
     attackDisplay->display(val);
     attackKnob->setValue(val);
 
-    val = DECAY(voi_dat[v_num].adsr);
+    val = envelope::DECAY(voi_dat[v_num].adsr);
     decayDisplay->display(val);
     decayKnob->setValue(val);
 
-    val = SUSTAIN(voi_dat[v_num].adsr);
+    val = envelope::SUSTAIN(voi_dat[v_num].adsr);
     sustainDisplay->display(val);
     sustainKnob->setValue(val);
 
-    val = RELEASE(voi_dat[v_num].adsr);
+    val = envelope::RELEASE(voi_dat[v_num].adsr);
     releaseDisplay->display(val);
     releaseKnob->setValue(val);
 
     val = voi_dat[v_num].waveform;
-    if (val & TRI)
+    if (val & wavegen::TRI)
         triLed->on();
     else
         triLed->off();
-    if (val & SAW)
+    if (val & wavegen::SAW)
         sawLed->on();
     else
         sawLed->off();
-    if (val & PUL)
+    if (val & wavegen::PUL)
         pulLed->on();
     else
         pulLed->off();
-    if (val & NOI)
+    if (val & wavegen::NOI)
         noiLed->on();
     else
         noiLed->off();
 
-    val = PULSEWIDTH(val);
+    val = wavegen::PULSEWIDTH(val);
     pwDisplay->display(val);
     pwKnob->setValue(val);
 
-    val = ECHO_TIME(voi_dat[v_num].echo);
+    val = echo::TIME(voi_dat[v_num].echo);
     echoTimeDisplay->display(val);
     echoTimeKnob->setValue(val);
 
-    val = ECHO_FBK(voi_dat[v_num].echo);
+    val = echo::FBK(voi_dat[v_num].echo);
     echoFbkDisplay->display(val);
     echoFbkKnob->setValue(val);
 
-    val = ECHO_MIX(voi_dat[v_num].echo);
+    val = echo::MIX(voi_dat[v_num].echo);
     echoMixDisplay->display(val);
     echoMixKnob->setValue(val);
 
-    val = CHORUS_RATE(voi_dat[v_num].chorus);
+    val = chorus::RATE(voi_dat[v_num].chorus);
     chorusRateDisplay->display(val);
     chorusRateKnob->setValue(val);
 
-    val = CHORUS_FBK(voi_dat[v_num].chorus);
+    val = chorus::FBK(voi_dat[v_num].chorus);
     chorusFbkDisplay->display(val);
     chorusFbkKnob->setValue(val);
 
-    val = CHORUS_MIX(voi_dat[v_num].chorus);
+    val = chorus::MIX(voi_dat[v_num].chorus);
     chorusMixDisplay->display(val);
     chorusMixKnob->setValue(val);
 
     ctrl = voi_dat[v_num].control;
-    if (ctrl == GLISS)
+    if (ctrl == engine::GLISS)
         glissLed->on();
     else
         glissLed->off();
-    if (ctrl == ARP)
+    if (ctrl == engine::ARP)
         arpLed->on();
     else
         arpLed->off();
@@ -550,11 +550,11 @@ void chipsynth::displayParams(int v_num)
     fsSpeedDisplay->display(voi_dat[voi_num].fs_speed);
     fsSpeedKnob->setValue(voi_dat[voi_num].fs_speed);
 
-    val = PW_SPEED(voi_dat[voi_num].pm);
+    val = wavegen_module::PW_SPEED(voi_dat[voi_num].pm);
     pmSpeedDisplay->display(val);
     pmSpeedKnob->setValue(val);
 
-    val = PW_DEPTH(voi_dat[voi_num].pm);
+    val = wavegen_module::PW_DEPTH(voi_dat[voi_num].pm);
     pmDepthDisplay->display(val);
     pmDepthKnob->setValue(val);
 
@@ -594,7 +594,7 @@ void chipsynth::init()
     const unsigned int channels = 1; // FIXME
     const unsigned int samplerate = 48000; // FIXME
 
-    const int cnt = (int)(CLOCK / samplerate);
+    const int cnt = (int)(engine::CLOCK / samplerate);
 
     eng = new engine();
     aMid = new csMidi(this, eng);

@@ -28,31 +28,24 @@
 #include "chorus.hpp"
 #include "echo.hpp"
 
-#define VOICES		2
-#define MAXNOTES	6
-#define CLOCK		192000
-
-#define NONE		0
-#define ARP		1
-#define GLISS		2
-
-typedef enum {
-    Volume,		/* 0-15 */
-    Filter_mode,	/* [lp/bp/hp] */
-    Filter_cutoff,	/* 0-2047 */
-    Filter_resonance,	/* 0-15 */
+typedef enum
+{
+    Volume,             /* 0-15 */
+    Filter_mode,        /* [lp/bp/hp] */
+    Filter_cutoff,      /* 0-2047 */
+    Filter_resonance,   /* 0-15 */
     Adsr,
     Waveform,
-    Control,		/* [none-gliss-arp] */
-    Ring_mod,		/* true/false */
-    Sync,		/* true/false */
-    //Vibrato,		/* true/false */
-    //Vibrato_depth,	/* */
-    Vibrato_speed,	/* */
-    //Filter_sweep,	/* true/false */
+    Control,            /* [none-gliss-arp] */
+    Ring_mod,           /* true/false */
+    Sync,               /* true/false */
+    //Vibrato,          /* true/false */
+    //Vibrato_depth,    /* */
+    Vibrato_speed,      /* */
+    //Filter_sweep,     /* true/false */
     //Filter_sweep_pingpong,/* */
-    Filter_sweep_depth,	/* 0-2047 */
-    Filter_sweep_speed,	/* */
+    Filter_sweep_depth, /* 0-2047 */
+    Filter_sweep_speed, /* */
     PwMod,
     Echo,
     Chorus
@@ -62,25 +55,37 @@ typedef enum {
 
 typedef struct
 {
-    oscillator_module	*osc;
-    wavegen_module	*wav;
-    envelope		*env;
-    filter_module	*filt;
-    chorus		*fxChorus;
-    echo		*fxEcho;
-    uint8_t		ctrl;
-    bool		sync;
+    oscillator_module   *osc;
+    wavegen_module      *wav;
+    envelope            *env;
+    filter_module       *filt;
+    chorus              *fxChorus;
+    echo                *fxEcho;
+    uint8_t             ctrl;
+    bool                sync;
 } voice_t;
-
-
-typedef struct {
-    int notes[MAXNOTES];
-    int poly;
-    int note_on;
-} note_data_t;
 
 class engine
 {
+private:
+    static const unsigned int VOICES = 2;
+    static const unsigned int MAXNOTES = 6;
+
+public:
+    static const unsigned int CLOCK = 192000;
+
+    static const int NONE = 0;
+    static const int ARP =  1;
+    static const int GLISS = 2;
+
+private:
+    typedef struct
+    {
+        int notes[MAXNOTES];
+        unsigned int poly;
+        unsigned int note_on;
+    } note_data_t;
+
 private:
     voice_t _voices[VOICES+1];
     note_data_t _noteData[VOICES];

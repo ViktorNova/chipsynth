@@ -29,14 +29,16 @@
 
 #include "wavegen.h"
 
-#define PW_SPEED_MASK	0x000F
-#define PW_DEPTH_MASK	0xFFF0
-
-#define PW_SPEED(x)	(x & PW_SPEED_MASK)
-#define PW_DEPTH(x)	(x >> 4)
-
 class wavegen_module : public wavegen
 {
+public:
+    static const uint16_t PW_SPEED_MASK = 0x000F;
+    static const uint16_t PW_DEPTH_MASK = 0xFFF0;
+
+public:
+    static uint16_t PW_SPEED(uint16_t x) { return x & PW_SPEED_MASK; }
+    static uint16_t PW_DEPTH(uint16_t x) { return x >> 4; }
+
 private:
     const int _divider;
 

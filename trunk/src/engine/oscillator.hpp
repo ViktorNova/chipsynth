@@ -20,8 +20,6 @@
 #ifndef OSCILLATOR_H
 #define OSCILLATOR_H
 
-#define MSB32	0x80000000
-
 #include <stdint.h>
 
 /**
@@ -29,6 +27,9 @@
 */
 class oscillator
 {
+private:
+    static const uint32_t MSB32 = 0x80000000;
+
 private:
     uint32_t _accumulator;
     uint32_t _frequency;

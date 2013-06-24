@@ -24,14 +24,6 @@
 
 #include "delay.hpp"
 
-#define CHORUS_RATE_MASK	0xFF00
-#define CHORUS_FBK_MASK		0x00F0
-#define CHORUS_MIX_MASK		0x000F
-
-#define CHORUS_RATE(x)		((x & CHORUS_RATE_MASK) >> 8)
-#define CHORUS_FBK(x)		((x & CHORUS_FBK_MASK) >> 4)
-#define CHORUS_MIX(x)		(x & CHORUS_MIX_MASK)
-
 /**
  This class implements a chorus/flanger
  Parameters:
@@ -41,6 +33,16 @@
 */
 class chorus 
 {
+public:
+    static const uint16_t RATE_MASK = 0xFF00;
+    static const uint16_t FBK_MASK = 0x00F0;
+    static const uint16_t MIX_MASK = 0x000F;
+
+public:
+    static uint16_t RATE(uint16_t x) { return (x & RATE_MASK) >> 8; }
+    static uint16_t FBK(uint16_t x) { return (x & FBK_MASK) >> 4; }
+    static uint16_t MIX(uint16_t x) { return x & MIX_MASK; }
+
 private:
     delay* _del;
 
@@ -76,14 +78,14 @@ public:
 
     uint32_t clock(uint32_t input)
     {
-        _accumulator += (uint32_t)CHORUS_RATE(_param);
+        _accumulator += (uint32_t)RATE(_param);
         _accumulator &= 0x01FFFFFF;
         uint16_t tri = (uint16_t)(_accumulator >> 13);
         tri = (((tri & 0x0800) ? (tri ^ 0x07FF) : tri) & 0x07FF); // tri is now 11 bit (0 - 2047)
 
         _del->time_fr(tri + _baseDelay);
-        _delOut = _del->clock(input + ((_delOut * CHORUS_FBK(_param)) >> 4));
-        return ((_delOut * CHORUS_MIX(_param)) >> 4);
+        _delOut = _del->clock(input + ((_delOut * FBK(_param)) >> 4));
+        return ((_delOut * MIX(_param)) >> 4);
     }
 };
 

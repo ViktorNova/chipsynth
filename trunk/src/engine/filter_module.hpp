@@ -22,15 +22,16 @@
 
 #include "filter.h"
 
-#define MIN_FILT	0
-#define MAX_FILT	2047
-
 /**
  * A wrapper for the filter class
  * provides filter cutoff sweeping
  */
 class filter_module : public filter
 {
+private:
+    static const int MIN_FILT = 0;
+    static const int MAX_FILT = 2047;
+
 private:
     int _Min;
     int _Max;
