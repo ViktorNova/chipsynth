@@ -66,7 +66,7 @@ void chipsynth::languageChange()
 
 void chipsynth::setVolume(int param)
 {
-    eng->param(voi_num, Volume, param);
+    eng->param(voi_num, engine::Volume, param);
     volumeDisplay->display(param);
     voi_dat[voi_num].volume = param;
 }
@@ -84,7 +84,7 @@ void chipsynth::setLP()
         lpLed->on();
     }
 
-    eng->param(voi_num, Filter_mode, filt);
+    eng->param(voi_num, engine::Filter_mode, filt);
     voi_dat[voi_num].filt_type = filt;
 }
 
@@ -101,7 +101,7 @@ void chipsynth::setBP()
         bpLed->on();
     }
 
-    eng->param(voi_num, Filter_mode, filt);
+    eng->param(voi_num, engine::Filter_mode, filt);
     voi_dat[voi_num].filt_type = filt;
 }
 
@@ -118,20 +118,20 @@ void chipsynth::setHP()
         hpLed->on();
     }
 
-    eng->param(voi_num, Filter_mode, filt);
+    eng->param(voi_num, engine::Filter_mode, filt);
     voi_dat[voi_num].filt_type = filt;
 }
 
 void chipsynth::setCutoff(int param)
 {
-    eng->param(voi_num, Filter_cutoff, param);
+    eng->param(voi_num, engine::Filter_cutoff, param);
     cutoffDisplay->display(param);
     voi_dat[voi_num].filt_cutoff = param;
 }
 
 void chipsynth::setRes(int param)
 {
-    eng->param(voi_num, Filter_resonance, param);
+    eng->param(voi_num, engine::Filter_resonance, param);
     resDisplay->display(param);
     voi_dat[voi_num].filt_res = param;
 }
@@ -147,7 +147,7 @@ void chipsynth::setAttack(int param)
 {
     uint16_t val = voi_dat[voi_num].adsr & ~envelope::ATTACK_MASK;
     val |= (param << 12);
-    eng->param(voi_num, Adsr, val);
+    eng->param(voi_num, engine::Adsr, val);
     attackDisplay->display(param);
     voi_dat[voi_num].adsr = val;
 }
@@ -156,7 +156,7 @@ void chipsynth::setDecay(int param)
 {
     uint16_t val = voi_dat[voi_num].adsr & ~envelope::DECAY_MASK;
     val |= (param << 8);
-    eng->param(voi_num, Adsr, val);
+    eng->param(voi_num, engine::Adsr, val);
     decayDisplay->display(param);
     voi_dat[voi_num].adsr = val;
 }
@@ -165,7 +165,7 @@ void chipsynth::setSustain(int param)
 {
     uint16_t val = voi_dat[voi_num].adsr & ~envelope::SUSTAIN_MASK;
     val |= (param << 4);
-    eng->param(voi_num, Adsr, val);
+    eng->param(voi_num, engine::Adsr, val);
     sustainDisplay->display(param);
     voi_dat[voi_num].adsr = val;
 }
@@ -174,7 +174,7 @@ void chipsynth::setRelease(int param)
 {
     uint16_t val = voi_dat[voi_num].adsr & ~envelope::RELEASE_MASK;
     val |= param;
-    eng->param(voi_num, Adsr, val);
+    eng->param(voi_num, engine::Adsr, val);
     releaseDisplay->display(param);
     voi_dat[voi_num].adsr = val;
 }
@@ -193,7 +193,7 @@ void chipsynth::setTriangle()
         triLed->on();
     }
 
-    eng->param(voi_num, Waveform, val);
+    eng->param(voi_num, engine::Waveform, val);
     voi_dat[voi_num].waveform = val;
 }
 
@@ -211,7 +211,7 @@ void chipsynth::setSawtooth()
         sawLed->on();
     }
 
-    eng->param(voi_num, Waveform, val);
+    eng->param(voi_num, engine::Waveform, val);
     voi_dat[voi_num].waveform = val;
 }
 
@@ -228,7 +228,7 @@ void chipsynth::setPulse()
         pulLed->on();
     }
 
-    eng->param(voi_num, Waveform, val);
+    eng->param(voi_num, engine::Waveform, val);
     voi_dat[voi_num].waveform = val;
 }
 
@@ -246,7 +246,7 @@ void chipsynth::setNoise()
         noiLed->on();
     }
 
-    eng->param(voi_num, Waveform, val);
+    eng->param(voi_num, engine::Waveform, val);
     voi_dat[voi_num].waveform = val;
 }
 
@@ -254,7 +254,7 @@ void chipsynth::setPW(int param)
 {
     uint16_t val = voi_dat[voi_num].waveform & ~wavegen::PW_MASK;
     val |= param;
-    eng->param(voi_num, Waveform, val);
+    eng->param(voi_num, engine::Waveform, val);
     voi_dat[voi_num].waveform = val;
     pwDisplay->display(param);
 }
@@ -272,7 +272,7 @@ void chipsynth::setSync()
         syncLed->on();
     }
 
-    eng->param(voi_num, Sync, sy);
+    eng->param(voi_num, engine::Sync, sy);
     voi_dat[voi_num].sync = sy;
 }
 
@@ -290,7 +290,7 @@ void chipsynth::setRing()
         ringLed->on();
     }
 
-    eng->param(voi_num, Ring_mod, rm);
+    eng->param(voi_num, engine::Ring_mod, rm);
     voi_dat[voi_num].ring_mod = rm;
 }
 
@@ -305,7 +305,7 @@ void chipsynth::setArp()
             glissLed->off();
             arpLed->on();
     }
-    eng->param(voi_num, Control, ctrl);
+    eng->param(voi_num, engine::Control, ctrl);
     voi_dat[voi_num].control = ctrl;
 }
 
@@ -323,20 +323,20 @@ void chipsynth::setGliss()
         glissLed->on();
     }
 
-    eng->param(voi_num, Control, ctrl);
+    eng->param(voi_num, engine::Control, ctrl);
     voi_dat[voi_num].control = ctrl;
 }
 
 void chipsynth::setFsDepth(int param)
 {
-    eng->param(voi_num, Filter_sweep_depth, param);
+    eng->param(voi_num, engine::Filter_sweep_depth, param);
     fsDepthDisplay->display(param);
     voi_dat[voi_num].fs_depth = param;
 }
 
 void chipsynth::setFsSpeed(int param)
 {
-    eng->param(voi_num, Filter_sweep_speed, param);
+    eng->param(voi_num, engine::Filter_sweep_speed, param);
     fsSpeedDisplay->display(param);
     voi_dat[voi_num].fs_speed = param;
 }
@@ -367,7 +367,7 @@ void chipsynth::setPmSpeed(int param)
 {
     int val = voi_dat[voi_num].pm & ~wavegen_module::PW_SPEED_MASK;
     val |= param;
-    eng->param(voi_num, PwMod, val);
+    eng->param(voi_num, engine::PwMod, val);
     pmSpeedDisplay->display(param);
     voi_dat[voi_num].pm = val;
 }
@@ -376,14 +376,14 @@ void chipsynth::setPmDepth(int param)
 {
     int val = voi_dat[voi_num].pm & ~wavegen_module::PW_DEPTH_MASK;
     val |= (param << 4);
-    eng->param(voi_num, PwMod, val);
+    eng->param(voi_num, engine::PwMod, val);
     pmDepthDisplay->display(param);
     voi_dat[voi_num].pm = val;
 }
 
 void chipsynth::setVibSpeed(int param)
 {
-    eng->param(voi_num, Vibrato_speed, param);
+    eng->param(voi_num, engine::Vibrato_speed, param);
     vibSpdDisplay->display(param);
     voi_dat[voi_num].vib_speed = param;
 }
@@ -392,7 +392,7 @@ void chipsynth::setEchoTime(int param)
 {
     int val = voi_dat[voi_num].echo & ~echo::TIME_MASK;
     val |= (param << 8);
-    eng->param(voi_num, Echo, val);
+    eng->param(voi_num, engine::Echo, val);
     echoTimeDisplay->display(param);
     voi_dat[voi_num].echo = val;
 }
@@ -401,7 +401,7 @@ void chipsynth::setEchoFbk(int param)
 {
     int val = voi_dat[voi_num].echo & ~echo::FBK_MASK;
     val |= (param << 4);
-    eng->param(voi_num, Echo, val);
+    eng->param(voi_num, engine::Echo, val);
     echoFbkDisplay->display(param);
     voi_dat[voi_num].echo = val;
 }
@@ -410,7 +410,7 @@ void chipsynth::setEchoMix(int param)
 {
     int val = voi_dat[voi_num].echo & ~echo::MIX_MASK;
     val |= param;
-    eng->param(voi_num, Echo, val);
+    eng->param(voi_num, engine::Echo, val);
     echoMixDisplay->display(param);
     voi_dat[voi_num].echo = val;
 }
@@ -419,7 +419,7 @@ void chipsynth::setChorusRate(int param)
 {
     int val = voi_dat[voi_num].chorus & ~chorus::RATE_MASK;
     val |= (param << 8);
-    eng->param(voi_num, Chorus, val);
+    eng->param(voi_num, engine::Chorus, val);
     chorusRateDisplay->display(param);
     voi_dat[voi_num].chorus = val;
 }
@@ -428,7 +428,7 @@ void chipsynth::setChorusFbk(int param)
 {
     int val = voi_dat[voi_num].chorus & ~chorus::FBK_MASK;
     val |= (param << 4);
-    eng->param(voi_num, Chorus, val);
+    eng->param(voi_num, engine::Chorus, val);
     chorusFbkDisplay->display(param);
     voi_dat[voi_num].chorus = val;
 }
@@ -437,7 +437,7 @@ void chipsynth::setChorusMix(int param)
 {
     int val = voi_dat[voi_num].chorus & ~chorus::MIX_MASK;
     val |= param;
-    eng->param(voi_num, Chorus, val);
+    eng->param(voi_num, engine::Chorus, val);
     chorusMixDisplay->display(param);
     voi_dat[voi_num].chorus = val;
 }

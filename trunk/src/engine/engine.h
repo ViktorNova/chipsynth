@@ -28,43 +28,6 @@
 #include "chorus.hpp"
 #include "echo.hpp"
 
-typedef enum
-{
-    Volume,             /* 0-15 */
-    Filter_mode,        /* [lp/bp/hp] */
-    Filter_cutoff,      /* 0-2047 */
-    Filter_resonance,   /* 0-15 */
-    Adsr,
-    Waveform,
-    Control,            /* [none-gliss-arp] */
-    Ring_mod,           /* true/false */
-    Sync,               /* true/false */
-    //Vibrato,          /* true/false */
-    //Vibrato_depth,    /* */
-    Vibrato_speed,      /* */
-    //Filter_sweep,     /* true/false */
-    //Filter_sweep_pingpong,/* */
-    Filter_sweep_depth, /* 0-2047 */
-    Filter_sweep_speed, /* */
-    PwMod,
-    Echo,
-    Chorus
-    //
-    ,PitchBend
-} param_t;
-
-typedef struct
-{
-    oscillator_module   *osc;
-    wavegen_module      *wav;
-    envelope            *env;
-    filter_module       *filt;
-    chorus              *fxChorus;
-    echo                *fxEcho;
-    uint8_t             ctrl;
-    bool                sync;
-} voice_t;
-
 class engine
 {
 private:
@@ -85,6 +48,44 @@ private:
         unsigned int poly;
         unsigned int note_on;
     } note_data_t;
+
+    typedef struct
+    {
+        oscillator_module   *osc;
+        wavegen_module      *wav;
+        envelope            *env;
+        filter_module       *filt;
+        chorus              *fxChorus;
+        echo                *fxEcho;
+        uint8_t             ctrl;
+        bool                sync;
+    } voice_t;
+
+public:
+    typedef enum
+    {
+        Volume,             /* 0-15 */
+        Filter_mode,        /* [lp/bp/hp] */
+        Filter_cutoff,      /* 0-2047 */
+        Filter_resonance,   /* 0-15 */
+        Adsr,
+        Waveform,
+        Control,            /* [none-gliss-arp] */
+        Ring_mod,           /* true/false */
+        Sync,               /* true/false */
+        //Vibrato,          /* true/false */
+        //Vibrato_depth,    /* */
+        Vibrato_speed,      /* */
+        //Filter_sweep,     /* true/false */
+        //Filter_sweep_pingpong,/* */
+        Filter_sweep_depth, /* 0-2047 */
+        Filter_sweep_speed, /* */
+        PwMod,
+        Echo,
+        Chorus
+        //
+        ,PitchBend
+    } param_t;
 
 private:
     voice_t _voices[VOICES+1];

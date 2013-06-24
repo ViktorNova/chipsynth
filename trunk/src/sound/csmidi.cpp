@@ -105,7 +105,7 @@ void mycallback(double deltatime, std::vector<unsigned char> *message, void *use
     {
         const int channel = status - 0xE0;
         const int value =  data1 | (data2 << 7);
-        eng->param(channel, PitchBend, value);
+        eng->param(channel, engine::PitchBend, value);
     }
 }
 
