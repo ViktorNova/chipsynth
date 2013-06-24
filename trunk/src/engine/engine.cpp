@@ -314,8 +314,8 @@ float engine::clock(void)
 
     /* apply external filter */
     _Vo = (_xVlp - _xVhp);	//
-    _xVhp += (_xVlp - _xVhp) * 0.0005208333333f; // HP at 16Hz (100 / CLOCK)
-    _xVlp += (Vi - _xVlp) * 0.5208333333f; // LP at 16KHz (100000 / CLOCK)
+    _xVhp += (_xVlp - _xVhp) * (100.f / CLOCK); // HP at 16Hz
+    _xVlp += (Vi - _xVlp) * (100000.f / CLOCK); // LP at 16KHz
 
     /* modulation */
 
