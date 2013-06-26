@@ -29,6 +29,9 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
         _shift = ((_shift << 1) & 0x7FFFFF) | bit0;
     }
 
+    /* Save buit 7 value for next cycle */
+    _bit7 = val & 0x0080;
+
     uint16_t out;
     /* calculate output depending on which waveforms
     * are selected. */
@@ -83,9 +86,6 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
         out = _triangle(val, val2) & _sawtooth(val) & _pulse(val) & _noise();
         break;
     }
-
-    /* */
-    _bit7 = val & 0x0080;
 
     return out;
 }
