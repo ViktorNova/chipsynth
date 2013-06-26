@@ -25,8 +25,8 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
     if (!_bit7 && (val & 0x0080))
     {
         /* bit 0 = bit 22 xor bit 17*/
-        const uint32_t bit0 = ((_shift >> 22) ^ (_shift >> 17)) & 0x00000001;
-        _shift = ((_shift << 1) & 0x7FFFFF) | bit0;
+        const uint32_t bit0 = ((_shift << 22) ^ (_shift << 17)) & 0x800000;
+        _shift = (_shift >> 1) | bit0;
     }
 
     /* Save buit 7 value for next cycle */

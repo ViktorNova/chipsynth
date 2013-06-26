@@ -95,8 +95,30 @@ private:
      * pseudo random */
     uint16_t _noise()
     {
-        /* take upper 12 bit of the shift register */
-        return (uint16_t)(_shift >> 11);
+        /* Noise generator schematic from reSID
+         *
+         *                reset    -------------------------------------------
+         *                  |     |                                           |
+         *           test--OR-->EOR<--                                        |
+         *                  |         |                                       |
+         *                  2 2 2 1 1 1 1 1 1 1 1 1 1                         |
+         * Register bits:   2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 <---
+         *                      |   |       |     |   |       |     |   |
+         * Waveform bits:       1   1       9     8   7       6     5   4
+         *                      1   0
+         *
+         * The low 4 waveform bits are zero (grounded).
+         *
+         * NOTE: the bits in _shift are inverted */
+        return (uint16_t)
+            ((_shift & (1 << 2)) << (11 - 2)) |
+            ((_shift & (1 << 4)) << (10 - 4)) |
+            ((_shift & (1 << 8)) << (9 - 8)) |
+            ((_shift & (1 << 11)) >> (11 - 8)) |
+            ((_shift & (1 << 13)) >> (13 - 7)) |
+            ((_shift & (1 << 17)) >> (17 - 6)) |
+            ((_shift & (1 << 20)) >> (20 - 5)) |
+            ((_shift & (1 << 22)) >> (22 - 4));
     }
 
 public:
