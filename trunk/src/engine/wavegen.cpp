@@ -59,28 +59,28 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
         out = _triangle(val, val2) & _sawtooth(val) & _pulse(val);
         break;
     case 0x8000:
-        out = _noise(_shift);
+        out = _noise();
         break;
     case 0x9000:
-        out = _triangle(val, val2) & _noise(_shift);
+        out = _triangle(val, val2) & _noise();
         break;
     case 0xA000:
-        out = _sawtooth(val) & _noise(_shift);
+        out = _sawtooth(val) & _noise();
         break;
     case 0xB000:
-        out = _triangle(val, val2) & _sawtooth(val) & _noise(_shift);
+        out = _triangle(val, val2) & _sawtooth(val) & _noise();
         break;
     case 0xC000:
-        out = _pulse(val) & _noise(_shift);
+        out = _pulse(val) & _noise();
         break;
     case 0xD000:
-        out = _triangle(val, val2) & _pulse(val) & _noise(_shift);
+        out = _triangle(val, val2) & _pulse(val) & _noise();
         break;
     case 0xE000:
-        out =  _sawtooth(val) & _pulse(val) & _noise(_shift);
+        out =  _sawtooth(val) & _pulse(val) & _noise();
         break;
     case 0xF000:
-        out = _triangle(val, val2) & _sawtooth(val) & _pulse(val) & _noise(_shift);
+        out = _triangle(val, val2) & _sawtooth(val) & _pulse(val) & _noise();
         break;
     }
 

@@ -93,10 +93,10 @@ private:
 
     /** Noise waveform 
      * pseudo random */
-    uint16_t _noise(uint32_t s)
+    uint16_t _noise()
     {
         /* take upper 12 bit of the shift register */
-        return (uint16_t)(s >> 11);
+        return (uint16_t)(_shift >> 11);
     }
 
 public:
