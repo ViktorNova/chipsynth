@@ -26,7 +26,7 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
     {
         /* bit 0 = bit 22 xor bit 17*/
         const uint32_t bit0 = ((_shift >> 22) ^ (_shift >> 17)) & 0x00000001;
-        _shift = ((_shift << 1) && 0x7FFFFF) | bit0;
+        _shift = ((_shift << 1) & 0x7FFFFF) | bit0;
     }
 
     uint16_t out;

@@ -31,7 +31,7 @@
 class wavegen
 {
 private:
-    static const uint32_t NSEED = 0x7FFFF8;
+    static const uint32_t NSEED = 0x7FFFFF;
     static const uint16_t MSB12 = 0x0800;
 
 public:
