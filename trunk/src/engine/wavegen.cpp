@@ -31,7 +31,7 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
 
     uint16_t out;
     /* calculate output depending on which waveforms
-        * are selected. */
+    * are selected. */
     switch (_param & WAV_MASK)
     {
     case 0x0000:
