@@ -41,8 +41,6 @@ public:
     static const uint16_t NOI = 0x8000;
 
     static const uint16_t PW_MASK = 0x0FFF;
-
-private:
     static const uint16_t WAV_MASK = 0xF000;
 
 public:

@@ -69,7 +69,7 @@ public:
 
     void modulation(uint16_t param)
     {
-        //uint16 pw = _wav & 0x0FFF;
+        //uint16 pw = _wav & wavegen::PW_MASK;
         _mod = param;
 
         /*_Min = (pw - param) << 4;
@@ -98,7 +98,7 @@ public:
                 _pw += PW_SPEED(_mod);
                 /*if ((_val>_Max) || (_val<_Min))
                         _speed = -_speed;*/
-                wavegen::waveform((_pw >> 4) | (_wav & 0xF000));
+                wavegen::waveform((_pw >> 4) | (_wav & wavegen::WAV_MASK));
             }
         }
         return wavegen::clock(val1, val2);
