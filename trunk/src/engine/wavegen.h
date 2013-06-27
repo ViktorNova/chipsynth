@@ -61,7 +61,7 @@ private:
 
 private:
     /* Theese functions generates the base waveforms
-        * given the oscillator value */
+    * given the oscillator value */
 
     /** Triangle waveform
      * goes linearly from 0 to 4095 and then back 
