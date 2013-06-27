@@ -68,9 +68,10 @@ private:
      * with increments of 2 */
     uint16_t _triangle(uint16_t v, uint16_t v2)
     {
-        const uint16_t val = (_ringMod) ? v ^ v2 : v;
+        const uint16_t msb_mask = (_ringMod && !(_param & SAW)) ? 0 : 1 << 11;
+        v = v ^ (v2 & msb_mask);
         /* when the MSB is set invert the output */
-        return ((((val & MSB12) ? (val ^ 0x07FF) : val) & 0x07FF) << 1);
+        return ((((v & MSB12) ? (v ^ 0x07FF) : v) & 0x07FF) << 1);
     }
 
     /** Sawtooth waveform
