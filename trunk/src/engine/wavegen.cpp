@@ -32,60 +32,40 @@ uint16_t wavegen::clock(uint16_t val, uint16_t val2)
     /* Save buit 7 value for next cycle */
     _bit7 = val & 0x0080;
 
-    uint16_t out;
-    /* calculate output depending on which waveforms
-    * are selected. */
-    switch (_param & WAV_MASK)
-    {
-    case 0x0000:
-        out = 0;
-        break;
-    case 0x1000:
-        out = _triangle(val, val2);
-        break;
-    case 0x2000:
-        out = _sawtooth(val);
-        break;
-    case 0x3000:
-        out = _triangle(val, val2) & _sawtooth(val);
-        break;
-    case 0x4000:
-        out = _pulse(val);
-        break;
-    case 0x5000:
-        out = _triangle(val, val2) & _pulse(val);
-        break;
-    case 0x6000:
-        out = _sawtooth(val) & _pulse(val);
-        break;
-    case 0x7000:
-        out = _triangle(val, val2) & _sawtooth(val) & _pulse(val);
-        break;
-    case 0x8000:
-        out = _noise();
-        break;
-    case 0x9000:
-        out = _triangle(val, val2) & _noise();
-        break;
-    case 0xA000:
-        out = _sawtooth(val) & _noise();
-        break;
-    case 0xB000:
-        out = _triangle(val, val2) & _sawtooth(val) & _noise();
-        break;
-    case 0xC000:
-        out = _pulse(val) & _noise();
-        break;
-    case 0xD000:
-        out = _triangle(val, val2) & _pulse(val) & _noise();
-        break;
-    case 0xE000:
-        out =  _sawtooth(val) & _pulse(val) & _noise();
-        break;
-    case 0xF000:
-        out = _triangle(val, val2) & _sawtooth(val) & _pulse(val) & _noise();
-        break;
-    }
+    uint16_t out = 0;
 
+    if (_param & WAV_MASK)
+    {
+        out = 0xFFF;
+
+        if (_param & (TRI | SAW))
+        {
+            const uint16_t osc =  _osc(val, val2);
+
+            if (_param & TRI) out &= (osc << 1);
+            if (_param & SAW) out &= osc;
+        }
+
+        if (_param & PUL) out &= _pulse(val);
+        if (_param & NOI) out &= _noise();
+    }
+#if 0
+    /* Feed output back into shift register 
+     * if multiple waveforms selected with noise */
+    if ((_param & WAV_MASK) > NOI)
+    {
+        const uint32_t waveform_output = (uint32_t)out;
+        _shift &=
+            ~((1 << 2) | (1 << 4) | (1 << 8) | (1 << 11) | (1 << 13) | (1 << 17) | (1 << 20) | (1 << 22)) |
+            ((waveform_output & 0x800) >> 9) |  // Bit 11 -> bit 20
+            ((waveform_output & 0x400) >> 6) |  // Bit 10 -> bit 18
+            ((waveform_output & 0x200) >> 1) |  // Bit  9 -> bit 14
+            ((waveform_output & 0x100) << 3) |  // Bit  8 -> bit 11
+            ((waveform_output & 0x080) << 6) |  // Bit  7 -> bit  9
+            ((waveform_output & 0x040) << 11) |  // Bit  6 -> bit  5
+            ((waveform_output & 0x020) << 15) |  // Bit  5 -> bit  2
+            ((waveform_output & 0x010) << 18);   // Bit  4 -> bit  0
+    }
+#endif
     return out;
 }

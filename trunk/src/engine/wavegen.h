@@ -66,19 +66,12 @@ private:
     /** Triangle waveform
      * goes linearly from 0 to 4095 and then back 
      * with increments of 2 */
-    uint16_t _triangle(uint16_t v, uint16_t v2)
+    uint16_t _osc(uint16_t v, uint16_t v2)
     {
         const uint16_t msb_mask = (_ringMod && !(_param & SAW)) ? 0 : 1 << 11;
         v = v ^ (v2 & msb_mask);
         /* when the MSB is set invert the output */
-        return ((((v & MSB12) ? (v ^ 0x07FF) : v) & 0x07FF) << 1);
-    }
-
-    /** Sawtooth waveform
-     * goes linearly from 0 to 4095 and then wraps to 0 */
-    uint16_t _sawtooth(uint16_t v)
-    {
-        return (v & 0x0FFF);
+        return ((_param & TRI) && (v & MSB12)) ? (v ^ 0x07FF) : v;
     }
 
     /** Pulse waveform */
@@ -87,7 +80,7 @@ private:
         /* compare the upper 12 bit of the oscillator
          * with pulse width, if less output 0
          * otherwise output maximum value (4095) */
-        return (((v & 0x0FFF) < PULSEWIDTH(_param)) ? 0x0000 : 0x0FFF);
+        return ((v & 0x0FFF) < PULSEWIDTH(_param)) ? 0xFFF : 0x000;
     }
 
     /** Noise waveform 
