@@ -1,0 +1,6 @@
+#!/bin/sh
+src/chipsynth & vmpk &
+sleep 2
+aconnect 129:0 128:0
+
+
